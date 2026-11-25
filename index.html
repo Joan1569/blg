@@ -128,7 +128,7 @@
   #menu { position: absolute; left: 0; top: 0; right: 0; bottom: 0; background: rgba(60,60,90,.45); display: none; z-index: 5; }
   #menu.open { display: block; }
   .book {
-    position: absolute; left: .8em; right: .8em; top: 6.4em; bottom: 1em;
+    position: absolute; left: .8em; right: .8em; top: 3.4em; bottom: 1em;
     background-color: #fffdf8;
     background-image:
       linear-gradient(rgba(143,168,224,.2) 1px, transparent 1px),
@@ -139,14 +139,16 @@
     box-shadow: .3em .4em 1em rgba(0,0,0,.2);
     padding: 1.2em 1em 1em 1.1em; overflow-y: auto; -webkit-overflow-scrolling: touch;
   }
-  .tabs { position: absolute; left: 1.3em; right: .8em; top: 4.6em; white-space: nowrap; }
-  .tab { display: inline-block; font-size: .8em; padding: .45em .6em .7em; margin-right: .15em; border-radius: .5em .5em 0 0; background: #e9e4d8; color: #666; cursor: pointer; }
+  .tabs { position: absolute; left: 1.3em; right: .8em; top: 1.6em; white-space: nowrap; }
+  .tab { display: inline-block; position: relative; font-size: .74em; padding: .45em .65em .75em; margin-left: -.45em; border-radius: .55em .55em 0 0; background: #e9e4d8; color: #666; cursor: pointer; box-shadow: -.12em 0 .25em rgba(0,0,0,.12); }
+  .tab:first-child { margin-left: 0; }
+  .tab.on { z-index: 2; }
   .tab.on { background: #fbe1e8; color: #6b3a48; font-weight: 700; }
   .tab:nth-child(2).on { background: #f6efc9; color: #6b5a1e; }
   .tab:nth-child(3).on { background: #dfe7fa; color: #2f55a4; }
   .tab:nth-child(4).on { background: #e6e2f4; color: #4b437a; }
   .tab:nth-child(5).on { background: #fff; color: #555; }
-  #closeMenu { position: absolute; right: 1.5em; top: 6.9em; font-size: 1em; background: none; border: none; color: #999; z-index: 2; }
+  #closeMenu { position: absolute; right: 1.5em; top: 3.9em; font-size: 1em; background: none; border: none; color: #999; z-index: 2; }
   .page h3 { margin: 0 0 .7em; font-weight: normal; padding-right: 1.6em; }
   .page h3 .big { font-size: 1.35em; font-weight: 700; background: linear-gradient(transparent 60%, rgba(242,181,196,.7) 60%); padding: 0 .2em; }
   .page h3 .small { font-size: .78em; color: #888; margin-left: .6em; }
