@@ -6,7 +6,7 @@
 <title>考察手帳（試玩原型）</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Serif+TC:wght@400;600&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
@@ -17,6 +17,9 @@
     -webkit-user-select: none; user-select: none;
   }
   button { font-family: inherit; }
+  /* 台詞與內文：思源宋體；標籤與手寫部分：霞鶩文楷 */
+  #text, .chip, .note p, .page p, .entry p, .slot.filled { font-family: "Noto Serif TC", "Songti TC", "PMingLiU", serif; }
+  .entry.diary p { font-family: "LXGW WenKai TC", "Hiragino Maru Gothic ProN", "PingFang TC", sans-serif; }
 
   /* ---------- 舞台 ---------- */
   #stage {
@@ -261,7 +264,7 @@
    tokens：考察用台詞，key:true 為正確關鍵詞
    record：到達這一行時寫進考察紀錄
    ========================================================= */
-var DATE = "4/3";
+var DATE = "4月3日";
 var SCRIPT = [
   { who: "", place: "教室", text: "（放學後。窗外傳來棒球部練習的聲音。）" },
   { who: "千夏", text: "什麼？你說 A 前輩和 B 同學？不可能啦。" },
