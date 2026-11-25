@@ -4,16 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>考察手帳（試玩原型）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
   body {
     background: #c3c6dc;
-    font-family: "PingFang TC", "Hiragino Sans", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    font-family: "LXGW WenKai TC", "Hiragino Maru Gothic ProN", "PingFang TC", "Microsoft JhengHei", sans-serif;
     color: #2b2b2b;
     -webkit-user-select: none; user-select: none;
   }
-  .hand { font-family: "Segoe Print", "Bradley Hand", "Comic Sans MS", "Chalkboard SE", cursive; }
+  button { font-family: inherit; }
 
   /* ---------- 舞台 ---------- */
   #stage {
@@ -37,22 +40,19 @@
       linear-gradient(90deg, rgba(255,255,255,.45) 50%, transparent 50%);
     background-size: .5em .5em;
   }
-  .tape.blue {
-    background-image: repeating-linear-gradient(45deg, #6aa6e8 0, #6aa6e8 .3em, #fff .3em, #fff .6em);
-    opacity: .8;
-  }
+  .tape.blue { background-image: repeating-linear-gradient(45deg, #6aa6e8 0, #6aa6e8 .3em, #fff .3em, #fff .6em); opacity: .8; }
   .tape.lav { background: rgba(201,195,230,.8); }
 
   /* ---------- 上方列 ---------- */
-  #topbar { position: absolute; left: .8em; right: .8em; top: .8em; height: 4.2em; }
+  #topbar { position: absolute; left: .8em; right: .8em; top: .9em; height: 4.4em; z-index: 1; }
   #evidence {
     position: absolute; left: 0; top: 0;
-    background: #fff; padding: 1.1em .7em .6em .7em;
+    background: #fff; padding: 1.3em .7em .6em .7em;
     border: 1px solid #ddd8cc;
     box-shadow: .15em .2em 0 rgba(0,0,0,.06);
     -webkit-transform: rotate(-1.5deg); transform: rotate(-1.5deg);
   }
-  #evidence .label { position: absolute; left: .5em; top: -.55em; font-size: .75em; padding: .1em .6em; background: rgba(242,181,196,.9); color: #6b3a48; letter-spacing: .1em; }
+  #evidence .label { position: absolute; left: .5em; top: -.7em; font-size: 1em; font-weight: 700; padding: .05em .7em; background: rgba(242,181,196,.95); color: #6b3a48; letter-spacing: .15em; }
   .slots { white-space: nowrap; }
   .slot {
     display: inline-block; vertical-align: middle;
@@ -60,20 +60,11 @@
     padding: 0 .4em; text-align: center; font-size: .9em;
     border: 2px dashed #8fa8e0; border-radius: .3em; color: #8fa8e0;
   }
-  .slot.filled {
-    border: none; background: #f6efc9; color: #2b2b2b;
-    box-shadow: .1em .15em 0 rgba(0,0,0,.12);
-    -webkit-transform: rotate(2deg); transform: rotate(2deg);
-  }
+  .slot.filled { border: none; background: #f6efc9; color: #2b2b2b; box-shadow: .1em .15em 0 rgba(0,0,0,.12); -webkit-transform: rotate(2deg); transform: rotate(2deg); }
   .slot.filled:nth-child(2) { -webkit-transform: rotate(-2deg); transform: rotate(-2deg); background: #fbe1e8; }
   .slot.filled:nth-child(3) { background: #dfe7fa; }
-  #submitBtn {
-    display: inline-block; vertical-align: middle; margin-left: .1em;
-    font-size: .85em; padding: .45em .7em; border: none; border-radius: .4em;
-    background: #2f55a4; color: #fff; font-family: inherit;
-  }
+  #submitBtn { display: inline-block; vertical-align: middle; margin-left: .1em; font-size: .85em; padding: .45em .7em; border: none; border-radius: .4em; background: #2f55a4; color: #fff; }
   #submitBtn[disabled] { background: #b9c3dc; }
-
   #menuBtn {
     position: absolute; right: 0; top: .2em; width: 2.8em; height: 2.8em;
     background: #fff; border: 1px solid #ddd8cc; border-radius: .5em;
@@ -82,69 +73,59 @@
   #menuBtn svg { width: 100%; height: 100%; display: block; }
 
   /* ---------- 場景 ---------- */
-  #scene { position: absolute; left: 0; right: 0; top: 5.6em; bottom: 9.5em; }
+  #scene { position: absolute; left: 0; right: 0; top: 5.2em; bottom: 12.4em; }
   .polaroid {
-    position: absolute; left: 50%; top: 46%;
-    width: 11em; padding: .6em .6em 2.2em .6em; background: #fff;
+    position: absolute; left: 50%; top: 50%;
+    width: 14.5em; padding: .7em .7em 2.6em .7em; background: #fff;
     box-shadow: .2em .3em .8em rgba(0,0,0,.15);
     -webkit-transform: translate(-50%, -50%) rotate(2deg); transform: translate(-50%, -50%) rotate(2deg);
-    -webkit-transition: opacity .3s; transition: opacity .3s;
+    -webkit-transition: opacity .15s; transition: opacity .15s;
   }
-  .polaroid .photo { height: 13em; background: #dfe7fa; position: relative; overflow: hidden; }
+  .polaroid .photo { height: 18em; background: #dfe7fa; position: relative; overflow: hidden; }
   .polaroid .photo svg { position: absolute; left: 0; bottom: 0; width: 100%; height: 85%; }
-  .polaroid .cap { position: absolute; left: 0; right: 0; bottom: .45em; text-align: center; font-size: 1em; }
-  .polaroid .tape { top: -.5em; left: 3.5em; width: 4em; -webkit-transform: rotate(-4deg); transform: rotate(-4deg); }
+  .polaroid .cap { position: absolute; left: 0; right: 0; bottom: .55em; text-align: center; font-size: 1em; color: #555; }
+  .polaroid .cap .d { color: #f2a0b4; margin-right: .4em; }
+  .polaroid .tape { top: -.5em; left: 5em; width: 4.5em; -webkit-transform: rotate(-4deg); transform: rotate(-4deg); }
   .polaroid.hide { opacity: 0; }
-  .placeholder-note { position: absolute; left: 0; right: 0; top: .5em; text-align: center; font-size: .65em; color: #6c7fb0; }
+  .placeholder-note { position: absolute; left: 0; right: 0; top: .6em; text-align: center; font-size: .7em; color: #6c7fb0; }
   .doodle { position: absolute; }
-  #place {
-    position: absolute; left: 1em; top: .4em; font-size: .8em; color: #555;
-    padding: .2em .6em; background: rgba(255,255,255,.7);
-  }
+  #place { position: absolute; left: 1em; top: .6em; font-size: .9em; color: #555; padding: .2em .7em; background: rgba(255,255,255,.8); }
+  #place .d { color: #f2a0b4; margin-right: .4em; }
 
   /* ---------- 對話框 ---------- */
   #dialog {
-    position: absolute; left: .7em; right: .7em; bottom: .8em; height: 8.4em;
+    position: absolute; left: .7em; right: .7em; bottom: 2.4em; height: 9em;
     background-color: #fff;
-    background-image: linear-gradient(transparent 1.55em, rgba(143,168,224,.35) 1.55em, rgba(143,168,224,.35) calc(1.55em + 1px), transparent calc(1.55em + 1px));
+    background-image: linear-gradient(transparent 1.55em, rgba(143,168,224,.35) 1.55em, rgba(143,168,224,.35) 1.62em, transparent 1.62em);
     background-size: 100% 1.6em; background-position: 0 .3em;
     border: 1px solid #ddd8cc;
     box-shadow: .2em .3em 0 rgba(0,0,0,.06);
-    padding: 1.2em 1em .8em 1em;
     -webkit-transform: rotate(-.6deg); transform: rotate(-.6deg);
   }
   #dialog .tape.l { left: -.6em; top: -.5em; width: 3.6em; -webkit-transform: rotate(-30deg); transform: rotate(-30deg); }
   #dialog .tape.r { right: -.6em; top: -.5em; width: 3.6em; -webkit-transform: rotate(30deg); transform: rotate(30deg); }
-  #name {
-    position: absolute; left: 1em; top: -.9em;
-    font-size: .85em; padding: .15em .8em; background: #2f55a4; color: #fff;
-  }
+  #namebar { position: absolute; left: 1em; right: 1em; top: -.9em; white-space: nowrap; }
+  #name { display: inline-block; vertical-align: middle; font-size: .9em; font-weight: 700; padding: .15em .9em; background: #2f55a4; color: #fff; }
   #name.hide { display: none; }
-  #text { font-size: 1em; line-height: 1.6em; }
+  #hint { display: inline-block; vertical-align: middle; margin-left: .5em; font-size: .72em; color: #2f55a4; background: rgba(255,255,255,.9); padding: .1em .4em; }
+  #text {
+    position: absolute; left: 1em; right: 1em; top: 1.2em; bottom: .7em;
+    font-size: 1em; line-height: 1.6em;
+    overflow-y: auto; -webkit-overflow-scrolling: touch;
+  }
   #text.narr { color: #6b6b6b; }
-  #nextMark { position: absolute; right: .9em; bottom: .5em; color: #f2a0b4; font-size: .8em;
-    -webkit-animation: bob 1s infinite; animation: bob 1s infinite; }
+  #nextMark { position: absolute; right: .9em; bottom: .4em; color: #f2a0b4; font-size: .8em; -webkit-animation: bob 1s infinite; animation: bob 1s infinite; }
   @-webkit-keyframes bob { 50% { -webkit-transform: translateY(.2em); } }
   @keyframes bob { 50% { transform: translateY(.2em); } }
+  .term { border-bottom: 2px dotted #f2a0b4; color: #b0466a; cursor: pointer; }
 
-  .term { border-bottom: 2px wavy #f2a0b4; text-decoration: underline wavy #f2a0b4; text-decoration-skip-ink: none; color: #b0466a; cursor: pointer; }
-
-  /* 詞塊 */
-  .chip {
-    display: inline-block; margin: 0 .2em .45em 0; padding: .1em .5em;
-    border: 1.5px solid #2b2b2b; border-radius: .35em; background: #fffdf6;
-    box-shadow: 0 .15em 0 #2b2b2b; line-height: 1.5em; cursor: pointer;
-  }
+  .chip { display: inline-block; margin: 0 .2em .5em 0; padding: .1em .5em; border: 1.5px solid #2b2b2b; border-radius: .35em; background: #fffdf6; box-shadow: 0 .15em 0 #2b2b2b; line-height: 1.5em; cursor: pointer; }
   .chip.used { opacity: .3; box-shadow: none; -webkit-transform: translateY(.15em); transform: translateY(.15em); }
   .punct { display: inline-block; margin-right: .2em; }
   .nw { white-space: nowrap; display: inline-block; }
-  #hint { font-size: .7em; color: #2f55a4; margin-bottom: .3em; }
 
-  /* ---------- 菜單（手帳） ---------- */
-  #menu {
-    position: absolute; left: 0; top: 0; right: 0; bottom: 0;
-    background: rgba(60,60,90,.45); display: none;
-  }
+  /* ---------- 日記本（選單） ---------- */
+  #menu { position: absolute; left: 0; top: 0; right: 0; bottom: 0; background: rgba(60,60,90,.45); display: none; z-index: 5; }
   #menu.open { display: block; }
   .book {
     position: absolute; left: .8em; right: .8em; top: 6.4em; bottom: 1em;
@@ -156,67 +137,77 @@
     border-radius: .3em .8em .8em .3em;
     border-left: .5em solid #8fa8e0;
     box-shadow: .3em .4em 1em rgba(0,0,0,.2);
-    padding: 3em 1em 1em 1.2em; overflow-y: auto; -webkit-overflow-scrolling: touch;
+    padding: 1.2em 1em 1em 1.1em; overflow-y: auto; -webkit-overflow-scrolling: touch;
   }
-  .tabs { position: absolute; left: 1.3em; right: .8em; top: 4.7em; white-space: nowrap; }
-  .tab {
-    display: inline-block; font-size: .85em; padding: .45em .8em .7em; margin-right: .2em;
-    border-radius: .5em .5em 0 0; background: #e9e4d8; color: #666; cursor: pointer;
-  }
-  .tab.on { background: #fbe1e8; color: #6b3a48; }
-  .tab:nth-child(2).on { background: #dfe7fa; color: #2f55a4; }
-  .tab:nth-child(3).on { background: #f6efc9; color: #6b5a1e; }
+  .tabs { position: absolute; left: 1.3em; right: .8em; top: 4.6em; white-space: nowrap; }
+  .tab { display: inline-block; font-size: .8em; padding: .45em .6em .7em; margin-right: .15em; border-radius: .5em .5em 0 0; background: #e9e4d8; color: #666; cursor: pointer; }
+  .tab.on { background: #fbe1e8; color: #6b3a48; font-weight: 700; }
+  .tab:nth-child(2).on { background: #f6efc9; color: #6b5a1e; }
+  .tab:nth-child(3).on { background: #dfe7fa; color: #2f55a4; }
   .tab:nth-child(4).on { background: #e6e2f4; color: #4b437a; }
-  #closeMenu { position: absolute; right: 1.6em; top: 7.2em; font-size: 1em; background: none; border: none; color: #999; z-index: 2; }
-  .page h3 { margin: 0 0 .6em; font-size: 1.05em; font-weight: normal; }
-  .page h3 .hl { background: linear-gradient(transparent 55%, rgba(242,181,196,.7) 55%); padding: 0 .2em; }
+  .tab:nth-child(5).on { background: #fff; color: #555; }
+  #closeMenu { position: absolute; right: 1.5em; top: 6.9em; font-size: 1em; background: none; border: none; color: #999; z-index: 2; }
+  .page h3 { margin: 0 0 .7em; font-weight: normal; padding-right: 1.6em; }
+  .page h3 .big { font-size: 1.35em; font-weight: 700; background: linear-gradient(transparent 60%, rgba(242,181,196,.7) 60%); padding: 0 .2em; }
+  .page h3 .small { font-size: .78em; color: #888; margin-left: .6em; }
+  .page h3 .sub { display: block; font-size: .72em; color: #888; margin-top: .35em; }
   .page p, .page li { font-size: .85em; line-height: 1.7em; margin: .2em 0; }
   .stat { display: inline-block; margin: 0 .4em .5em 0; padding: .3em .7em; font-size: .8em; background: #fff; border: 1px solid #ddd8cc; }
   .week { width: 100%; border-collapse: collapse; margin-top: .4em; font-size: .8em; background: #fff; }
-  .week td { border: 1px solid #ddd8cc; padding: .45em .3em; text-align: center; }
+  .week td { border: 1px solid #ddd8cc; padding: .4em .3em; text-align: center; }
   .week td.day { width: 2.6em; color: #888; }
-  .act { display: inline-block; padding: .15em .5em; border-radius: 1em; font-size: .9em; cursor: pointer; }
+  .week tr.fixed td { background: #fdf6f8; }
+  .act { display: inline-block; padding: .15em .6em; border-radius: 1em; font-size: .9em; }
   .act.club { background: #fbe1e8; } .act.job { background: #f6efc9; } .act.watch { background: #dfe7fa; } .act.home { background: #e6e2f4; }
-  .entry { background: #fff; border: 1px solid #ddd8cc; padding: .5em .7em; margin-bottom: .6em; position: relative; }
-  .entry .jp { font-size: .75em; color: #888; margin-left: .4em; }
-  .entry .memo { font-size: .75em; color: #b0466a; margin-top: .3em; }
+  .act.free { background: #fff; border: 1.5px dashed #8fa8e0; color: #2f55a4; cursor: pointer; }
+  .lock { font-size: .75em; color: #b0466a; margin-left: .3em; }
+  .entry { background: #fff; border: 1px solid #ddd8cc; padding: .6em .8em; margin-bottom: .7em; position: relative; }
+  .entry .ttl { font-weight: 700; }
+  .entry .jp, .entry .when { font-size: .75em; color: #888; margin-left: .4em; font-weight: normal; }
+  .entry .memo { font-size: .78em; color: #b0466a; margin-top: .3em; }
+  .entry .ev { margin-top: .4em; }
+  .entry .ev span { display: inline-block; font-size: .72em; padding: .05em .5em; margin-right: .3em; background: #f6efc9; }
+  .entry.diary { background: #fffef4; -webkit-transform: rotate(-.4deg); transform: rotate(-.4deg); }
+  .entry.diary:nth-child(odd) { -webkit-transform: rotate(.5deg); transform: rotate(.5deg); }
+  .entry.diary .tape { left: 40%; top: -.5em; width: 3em; height: .9em; }
+  .strike { text-decoration: line-through; color: #aaa; }
   .locked { color: #bbb; }
   .opt { display: inline-block; padding: .4em .9em; margin: 0 .4em .4em 0; font-size: .85em; border: 1.5px solid #2b2b2b; border-radius: .4em; background: #fff; cursor: pointer; }
   .opt.on { background: #2f55a4; color: #fff; border-color: #2f55a4; }
 
   /* ---------- 彈出便條 ---------- */
-  #popup { position: absolute; left: 0; top: 0; right: 0; bottom: 0; background: rgba(60,60,90,.3); display: none; }
+  #popup { position: absolute; left: 0; top: 0; right: 0; bottom: 0; background: rgba(60,60,90,.3); display: none; z-index: 9; }
   #popup.open { display: block; }
   .note {
-    position: absolute; left: 50%; top: 45%; width: 80%; max-width: 20em;
+    position: absolute; left: 50%; top: 45%; width: 82%; max-width: 21em;
     -webkit-transform: translate(-50%, -50%) rotate(-1deg); transform: translate(-50%, -50%) rotate(-1deg);
     background: #f6efc9; padding: 1.4em 1.1em 1em; box-shadow: .2em .3em .8em rgba(0,0,0,.2);
   }
   .note .tape { left: 40%; top: -.5em; width: 4em; }
-  .note h4 { margin: 0 0 .5em; font-size: 1em; font-weight: normal; }
-  .note p { margin: .3em 0; font-size: .85em; line-height: 1.7em; }
+  .note h4 { margin: 0 0 .5em; font-size: 1.15em; }
+  .note p { margin: .3em 0; font-size: .88em; line-height: 1.7em; }
   .note .btns { text-align: right; margin-top: .7em; }
-  .note button { font-family: inherit; font-size: .85em; padding: .4em .9em; border: none; border-radius: .4em; background: #2f55a4; color: #fff; margin-left: .4em; }
+  .note button { font-size: .85em; padding: .4em .9em; border: none; border-radius: .4em; background: #2f55a4; color: #fff; margin-left: .4em; }
   .note button.sub { background: #fff; color: #2f55a4; border: 1.5px solid #2f55a4; }
 
   /* ---------- 橫屏 ---------- */
   #stage.landscape #scene { top: 1em; bottom: 1em; right: 52%; }
-  #stage.landscape .polaroid { top: 55%; }
-  #stage.landscape #dialog { left: 49%; right: 1em; top: 6.2em; bottom: 1.2em; height: auto; }
+  #stage.landscape .polaroid { width: 12.5em; }
+  #stage.landscape .polaroid .photo { height: 14.5em; }
+  #stage.landscape #dialog { left: 49%; right: 1em; top: 6.4em; bottom: 2em; height: auto; }
   #stage.landscape #topbar { left: 49%; }
-  #stage.landscape .book { left: 20%; right: 20%; top: 2.6em; padding-top: 2em; }
-  #stage.landscape .tabs { left: calc(20% + .5em); top: .9em; }
-  #stage.landscape #closeMenu { right: calc(20% + .8em); top: 3em; }
-  #stage.landscape #place { left: 1em; top: 1em; }
+  #stage.landscape .book { left: 18%; right: 18%; top: 2.8em; }
+  #stage.landscape .tabs { left: calc(18% + .5em); top: 1em; }
+  #stage.landscape #closeMenu { right: calc(18% + .7em); top: 3.3em; }
 </style>
 </head>
 <body>
 <div id="stage">
 
-  <svg class="doodle" style="right:1.2em; top:7em; width:2.4em;" viewBox="0 0 40 40"><path d="M20 3 L24 15 L37 15 L26 23 L30 36 L20 28 L10 36 L14 23 L3 15 L16 15 Z" fill="none" stroke="#2b2b2b" stroke-width="1.6" stroke-linejoin="round"/></svg>
-  <svg class="doodle" style="left:1.4em; top:13em; width:1.4em; opacity:.8" viewBox="0 0 40 40"><path d="M20 3 L24 15 L37 15 L26 23 L30 36 L20 28 L10 36 L14 23 L3 15 L16 15 Z" fill="#f2b5c4" stroke="#2b2b2b" stroke-width="2"/></svg>
-  <svg class="doodle" style="right:2.2em; bottom:11em; width:1.6em;" viewBox="0 0 40 40"><circle cx="20" cy="20" r="8" fill="#8fa8e0"/></svg>
-  <svg class="doodle" style="left:2em; bottom:12em; width:3em;" viewBox="0 0 60 30"><path d="M5 20 C15 2, 25 30, 35 12 S 55 8, 55 22" fill="none" stroke="#f2a0b4" stroke-width="2" stroke-linecap="round"/></svg>
+  <svg class="doodle" style="right:1.2em; top:6.6em; width:2.4em;" viewBox="0 0 40 40"><path d="M20 3 L24 15 L37 15 L26 23 L30 36 L20 28 L10 36 L14 23 L3 15 L16 15 Z" fill="none" stroke="#2b2b2b" stroke-width="1.6" stroke-linejoin="round"/></svg>
+  <svg class="doodle" style="left:1em; top:15em; width:1.4em; opacity:.8" viewBox="0 0 40 40"><path d="M20 3 L24 15 L37 15 L26 23 L30 36 L20 28 L10 36 L14 23 L3 15 L16 15 Z" fill="#f2b5c4" stroke="#2b2b2b" stroke-width="2"/></svg>
+  <svg class="doodle" style="right:1.3em; bottom:14em; width:1.4em;" viewBox="0 0 40 40"><circle cx="20" cy="20" r="8" fill="#8fa8e0"/></svg>
+  <svg class="doodle" style="left:1em; bottom:13.6em; width:2.6em;" viewBox="0 0 60 30"><path d="M5 20 C15 2, 25 30, 35 12 S 55 8, 55 22" fill="none" stroke="#f2a0b4" stroke-width="2" stroke-linecap="round"/></svg>
 
   <div id="topbar">
     <div id="evidence">
@@ -225,34 +216,33 @@
         <span class="slot" data-i="0">？</span><span class="slot" data-i="1">？</span><span class="slot" data-i="2">？</span><button id="submitBtn" disabled>提出</button>
       </div>
     </div>
-    <button id="menuBtn" aria-label="選單">
+    <button id="menuBtn" aria-label="日記本">
       <svg viewBox="0 0 30 30"><path d="M4 8 C10 7, 20 9, 26 7.5" stroke="#2b2b2b" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M4 15.5 C11 14.5, 19 16.5, 26 15" stroke="#f2a0b4" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M4 23 C10 22, 21 24, 26 22.5" stroke="#2b2b2b" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>
     </button>
   </div>
 
   <div id="scene">
-    <div id="place" class="hand">放學後・教室</div>
+    <div id="place"></div>
     <div class="polaroid hide" id="portrait">
       <span class="tape pink"></span>
-      <div class="photo" id="photo">
+      <div class="photo">
         <div class="placeholder-note">立繪預定地</div>
         <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMax meet"><circle cx="50" cy="38" r="17" fill="#fff" stroke="#2b2b2b" stroke-width="1.5"/><path d="M18 100 C18 72, 32 60, 50 60 C68 60, 82 72, 82 100 Z" fill="#fff" stroke="#2b2b2b" stroke-width="1.5"/></svg>
       </div>
-      <div class="cap hand" id="cap"></div>
+      <div class="cap" id="cap"></div>
     </div>
   </div>
 
   <div id="dialog">
     <span class="tape blue l"></span><span class="tape pink r"></span>
-    <div id="name" class="hide"></div>
-    <div id="hint" style="display:none">▶ 從台詞中選出三個關鍵詞，放進考察欄</div>
+    <div id="namebar"><span id="name" class="hide"></span><span id="hint" style="display:none">▶ 從台詞中選出三個關鍵詞</span></div>
     <div id="text"></div>
     <div id="nextMark">▼</div>
   </div>
 
   <div id="menu">
     <div class="tabs">
-      <span class="tab on" data-p="sched">行程</span><span class="tab" data-p="dict">用語辭典</span><span class="tab" data-p="keys">關鍵詞</span><span class="tab" data-p="set">設定</span>
+      <span class="tab on" data-p="sched">日程管理</span><span class="tab" data-p="diary">原主日記</span><span class="tab" data-p="dict">用語筆記</span><span class="tab" data-p="log">考察紀錄</span><span class="tab" data-p="set">⚙</span>
     </div>
     <button id="closeMenu">✕</button>
     <div class="book" id="book"></div>
@@ -264,167 +254,201 @@
 <script>
 /* =========================================================
    劇本資料
-   - who：說話的人（空白＝旁白）
-   - text：一般台詞，[[詞]] 代表用語辭典的詞彙
-   - tokens：考察用台詞，key:true 為正確關鍵詞
+   who：說話的人（空白＝旁白，「我」＝女主角）
+   text：台詞，[[詞]] 代表用語筆記的詞彙
+   tokens：考察用台詞，key:true 為正確關鍵詞
+   record：到達這一行時寫進考察紀錄
    ========================================================= */
+var DATE = "4/3";
 var SCRIPT = [
-  { who: "", place: "放學後・教室", text: "（窗外傳來棒球部練習的聲音。）" },
-  { who: "千夏", text: "什麼？你說 A 同學和 B 前輩？不可能啦。" },
+  { who: "", place: "教室", text: "（放學後。窗外傳來棒球部練習的聲音。）" },
+  { who: "千夏", text: "什麼？你說 A 前輩和 B 同學？不可能啦。" },
   { who: "千夏", text: "上次我還看到他們兩個在[[牛棚]]吵架欸。" },
   { who: "我", text: "（……吵架？那就找出證據給她看。）" },
-  { who: "", place: "走廊", text: "（A 同學正在跟 B 前輩說話。）" },
+  { who: "", place: "走廊", text: "（A 前輩正在跟 B 同學說話。）" },
   { who: "A", evidence: true, tokens: [
       { t: "你" }, { t: "昨天" }, { t: "又", key: true }, { t: "忘記" }, { t: "帶傘了吧" }, { p: "，" },
       { t: "我的", key: true }, { t: "借你" }, { p: "，" }, { t: "明天還", key: true }, { t: "就好" }, { p: "。" }
-  ] }
+  ] },
+  { who: "我", place: "教室", text: "千夏，你聽好。A 前輩說的是「又」忘記帶傘，代表 B 同學忘記帶傘的事已經發生過好幾次了。" },
+  { who: "我", text: "而且借出去的是「我的」傘，還說「明天還」就好——這等於替明天見面找好理由了吧！" },
+  { who: "我", text: "B 同學八成從來不看天氣預報，A 前輩每次都乖乖借傘給他。這是溺愛！溺愛啦！" },
+  { who: "千夏", text: "……等一下，「又」？他常常這樣嗎？" },
+  { who: "", text: "（千夏動搖了！）", record: {
+      title: "借傘事件", when: "第 1 週", keys: ["又", "我的", "明天還"],
+      body: "B 同學經常忘記看天氣預報，所以 A 前輩總是借他雨傘。"
+  } },
+  { who: "", text: "（試玩到這裡結束。）", end: true }
 ];
 
 var DICT = {
-  "牛棚": { jp: "ブルペン", body: "投手在比賽前或比賽中練習投球的區域，捕手會在這裡接球。", memo: "原主筆記：A 同學常常在這裡留到最後。" },
-  "女房役": { jp: "にょうぼうやく", body: "捕手的別稱。捕手負責引導投手、配球、照顧投手的狀態，所以被比喻為「妻子」。", memo: "原主筆記：意思是……？" },
+  "牛棚": { jp: "ブルペン", body: "投手在比賽前或比賽中練習投球的區域，捕手會在這裡接球。", memo: "原主的筆記：A 前輩常常在這裡留到最後。" },
+  "女房役": { jp: "にょうぼうやく", body: "捕手的別稱。捕手負責引導投手、配球、照顧投手的狀態，所以被比喻為「妻子」。", memo: "原主的筆記：意思是……？" },
   "夏甲": { jp: "夏の甲子園", body: "全國高等學校棒球選手權大會，每年八月在甲子園球場舉行。", memo: "" }
 };
 
+/* 原主日記：穿越前就寫好的內容 */
+var DIARY = [
+  { date: "3/28", body: "春假最後一週。明天開始要整理新學期的筆記本。" },
+  { date: "4/1", body: "新學期。同班的 B 同學和棒球部的 A 前輩好像是舊識，午休的時候 A 前輩特地跑來教室找他。" },
+  { date: "4/2", body: "<span class='strike'>A×B……？</span>不行，這種事不能寫在這裡。" }
+];
+
 /* ========================================================= */
-var state = {
-  i: 0, slots: [null, null, null], unlocked: {}, keys: [],
-  orient: "auto", money: 5000, grade: "C", tab: "sched"
-};
+var state = { i: 0, slots: [null, null, null], unlocked: {}, log: [], orient: "auto", money: 5000, grade: "C", tab: "sched", onClose: null };
 var $ = function (id) { return document.getElementById(id); };
 
 function renderLine() {
   var line = SCRIPT[state.i];
-  var textEl = $("text"), nameEl = $("name");
-  if (line.place) $("place").innerHTML = line.place;
-  if (line.who && line.who !== "我") {
-    nameEl.innerHTML = line.who; nameEl.className = "";
-    $("cap").innerHTML = line.who; $("portrait").className = "polaroid";
-  } else if (line.who === "我") {
-    nameEl.innerHTML = "我"; nameEl.className = "";
-    $("portrait").className = "polaroid hide";
-  } else {
-    nameEl.className = "hide"; $("portrait").className = "polaroid hide";
-  }
-  $("hint").style.display = line.evidence ? "block" : "none";
+  if (line.place) state.place = line.place;
+  var nameEl = $("name"), textEl = $("text");
+  var dateHtml = '<span class="d">' + DATE + '</span>' + (state.place || "");
+  var showPortrait = line.who && line.who !== "我";
+
+  if (line.who) { nameEl.innerHTML = line.who; nameEl.className = ""; } else { nameEl.className = "hide"; }
+  $("portrait").className = showPortrait ? "polaroid" : "polaroid hide";
+  $("cap").innerHTML = dateHtml;
+  $("place").innerHTML = dateHtml;
+  $("place").style.display = showPortrait ? "none" : "block";
+
+  $("hint").style.display = line.evidence ? "inline-block" : "none";
   $("nextMark").style.display = line.evidence ? "none" : "block";
   textEl.className = line.who ? "" : "narr";
+  textEl.scrollTop = 0;
 
   if (line.evidence) {
     var html = "";
     for (var k = 0; k < line.tokens.length; k++) {
       var tk = line.tokens[k];
       if (tk.p) continue;
-      var after = (line.tokens[k + 1] && line.tokens[k + 1].p) ? '<span class="punct">' + line.tokens[k + 1].p + '</span>' : '';
+      var nx = line.tokens[k + 1];
+      var after = (nx && nx.p) ? '<span class="punct">' + nx.p + '</span>' : '';
       html += '<span class="nw"><span class="chip" data-k="' + k + '">' + tk.t + '</span>' + after + '</span>';
     }
     textEl.innerHTML = html;
-    refreshChips();
   } else {
     textEl.innerHTML = line.text.replace(/\[\[(.+?)\]\]/g, '<span class="term" data-term="$1">$1</span>');
+  }
+  refreshChips();
+
+  if (line.record) {
+    var r = line.record, exists = false;
+    for (var q = 0; q < state.log.length; q++) if (state.log[q].title === r.title) exists = true;
+    if (!exists) {
+      state.log.push(r);
+      showNote("✎ 考察紀錄已更新", "<p><b>" + r.title + "</b></p><p>" + r.body + "</p>", '<button onclick="closePopup()">好</button>');
+    }
+  }
+  if (line.end) {
+    showNote("試玩結束", "<p>考察紀錄可以在右上角的日記本裡查看。</p>",
+      '<button class="sub" onclick="openMenu(\'log\')">看考察紀錄</button><button onclick="restart()">從頭再玩</button>');
   }
 }
 
 function refreshChips() {
+  var line = SCRIPT[state.i];
   var chips = document.querySelectorAll(".chip");
   for (var c = 0; c < chips.length; c++) {
     var k = +chips[c].getAttribute("data-k");
     chips[c].className = state.slots.indexOf(k) >= 0 ? "chip used" : "chip";
   }
-  var line = SCRIPT[state.i];
-  var slotEls = document.querySelectorAll(".slot");
-  var full = true;
+  var slotEls = document.querySelectorAll(".slot"), full = true;
   for (var s = 0; s < 3; s++) {
     var v = state.slots[s];
-    if (v === null) { slotEls[s].innerHTML = "？"; slotEls[s].className = "slot"; full = false; }
+    if (v === null || !line.tokens) { slotEls[s].innerHTML = "？"; slotEls[s].className = "slot"; full = false; }
     else { slotEls[s].innerHTML = line.tokens[v].t; slotEls[s].className = "slot filled"; }
   }
-  $("submitBtn").disabled = !full;
+  $("submitBtn").disabled = !full || !line.evidence;
 }
 
 function next() {
-  if (SCRIPT[state.i].evidence) return;
+  var line = SCRIPT[state.i];
+  if (line.evidence || line.end) return;
   if (state.i < SCRIPT.length - 1) { state.i++; renderLine(); }
 }
 
 function submit() {
   var line = SCRIPT[state.i], hit = 0, words = [];
-  for (var s = 0; s < 3; s++) {
-    var tk = line.tokens[state.slots[s]];
-    words.push(tk.t);
-    if (tk.key) hit++;
-  }
-  var title, body, btns;
+  for (var s = 0; s < 3; s++) { var tk = line.tokens[state.slots[s]]; words.push(tk.t); if (tk.key) hit++; }
+  var combo = "<p>「" + words.join("」＋「") + "」</p>";
   if (hit === 3) {
-    for (var w = 0; w < words.length; w++) if (state.keys.indexOf(words[w]) < 0) state.keys.push(words[w]);
-    title = "考察成立！";
-    body = "<p>「又」＋「我的」＋「明天還」</p><p>→ 他已經習慣照顧對方，還替兩人留了下一次見面的理由。</p>" +
-           "<p><b>千夏</b>：「……等一下，『又』？他常常這樣嗎？」</p><p style='color:#b0466a'>千夏動搖了！</p>";
-    btns = '<button class="sub" onclick="restart()">從頭再玩</button><button onclick="closePopup()">好耶</button>';
+    showNote("考察成立！", combo + "<p>→ 他已經習慣照顧對方，還替兩人留了下一次見面的理由。</p>", '<button onclick="closePopup()">去找千夏！</button>');
+    state.onClose = function () { state.slots = [null, null, null]; state.i++; renderLine(); };
   } else if (hit === 0) {
-    title = "考察……成立？";
-    body = "<p>「" + words.join("」＋「") + "」</p><p>→ 結論：B 前輩是個健忘的人。</p><p><b>千夏</b>：「你是在說前輩的壞話嗎？」</p>";
-    btns = '<button onclick="retry()">再考察一次</button>';
+    showNote("考察……成立？", combo + "<p>→ 結論：B 同學是個健忘的人。</p><p><b>千夏</b>：「你是在說 B 同學的壞話嗎？」</p>", '<button onclick="retry()">再考察一次</button>');
   } else {
-    title = "證據不足";
-    body = "<p>「" + words.join("」＋「") + "」</p><p><b>千夏</b>：「借傘而已吧？我也會借別人傘啊。」</p><p style='color:#888'>（正確的關鍵詞：" + hit + " / 3）</p>";
-    btns = '<button onclick="retry()">再考察一次</button>';
+    showNote("證據不足", combo + "<p><b>千夏</b>：「借傘而已吧？我也會借別人傘啊。」</p><p style='color:#888'>（正確的關鍵詞：" + hit + " / 3）</p>", '<button onclick="retry()">再考察一次</button>');
   }
-  showNote(title, body, btns);
 }
 
 function retry() { state.slots = [null, null, null]; closePopup(); refreshChips(); }
-function restart() { state.slots = [null, null, null]; state.i = 0; closePopup(); renderLine(); refreshChips(); }
+function restart() { state.slots = [null, null, null]; state.i = 0; state.place = ""; closePopup(); $("menu").className = ""; renderLine(); }
 
 function showNote(title, body, btns) {
   $("note").innerHTML = '<span class="tape lav"></span><h4>' + title + '</h4>' + body + '<div class="btns">' + btns + '</div>';
   $("popup").className = "open";
 }
-function closePopup() { $("popup").className = ""; }
+function closePopup() {
+  $("popup").className = "";
+  var f = state.onClose; state.onClose = null;
+  if (f) f();
+}
 
 function showTerm(term) {
   var d = DICT[term]; if (!d) return;
   var isNew = !state.unlocked[term];
   state.unlocked[term] = true;
-  showNote(term + '<span style="font-size:.75em;color:#888;margin-left:.4em">' + d.jp + '</span>',
+  showNote(term + '<span style="font-size:.7em;color:#888;margin-left:.4em;font-weight:normal">' + d.jp + '</span>',
     '<p>' + d.body + '</p>' + (d.memo ? '<p style="color:#b0466a;font-size:.8em">' + d.memo + '</p>' : '') +
-    (isNew ? '<p style="font-size:.75em;color:#2f55a4">✎ 已記錄到用語辭典</p>' : ''),
+    (isNew ? '<p style="font-size:.75em;color:#2f55a4">✎ 已記錄到用語筆記</p>' : ''),
     '<button onclick="closePopup()">知道了</button>');
 }
 
-/* ---------- 手帳菜單 ---------- */
+/* ---------- 日記本 ---------- */
+function openMenu(tab) { if (tab) state.tab = tab; closePopup(); renderBook(); $("menu").className = "open"; }
+
 function renderBook() {
-  var html = "", t = state.tab;
+  var html = '<div class="page">', t = state.tab, i;
   if (t === "sched") {
-    var days = ["一", "二", "三", "四", "五"];
-    var acts = [["club", "社團"], ["job", "打工"], ["watch", "圍觀練習"], ["club", "社團"], ["home", "回家"]];
-    html += '<div class="page"><h3><span class="hl">第 1 週</span>　4/1 – 4/7</h3>';
+    var rows = [
+      ["一", "club", "管弦樂部", true], ["二", "club", "管弦樂部", true], ["三", "free", "＋ 安排行程", false],
+      ["四", "club", "管弦樂部", true], ["五", "club", "管弦樂部", true], ["六", "club", "管弦樂部（半天）", true], ["日", "free", "＋ 安排行程", false]
+    ];
+    html += '<h3><span class="big">第 1 週</span><span class="small">4/1 – 4/7</span></h3>';
     html += '<span class="stat">零用錢 ¥' + state.money + '</span><span class="stat">成績 ' + state.grade + '</span>';
     html += '<p style="color:#888">上課態度：<span class="act watch">認真聽課</span></p>';
     html += '<table class="week">';
-    for (var d = 0; d < 5; d++) html += '<tr><td class="day">' + days[d] + '</td><td><span class="act ' + acts[d][0] + '">' + acts[d][1] + '</span></td></tr>';
-    html += '</table><p style="color:#aaa;font-size:.75em">（示意畫面，點選行程的功能之後再做）</p></div>';
+    for (i = 0; i < rows.length; i++) {
+      var r = rows[i];
+      html += '<tr' + (r[3] ? ' class="fixed"' : '') + '><td class="day">' + r[0] + '</td><td><span class="act ' + r[1] + '">' + r[2] + '</span>' + (r[3] ? '<span class="lock">固定</span>' : '') + '</td></tr>';
+    }
+    html += '</table><p style="color:#aaa;font-size:.75em">社團活動每週固定，休部日（週三、週日）可以自由安排打工、圍觀練習或回家。（示意畫面）</p>';
+  } else if (t === "diary") {
+    html += '<h3><span class="big">原主日記</span><span class="sub">穿越前寫下的內容</span></h3>';
+    for (i = 0; i < DIARY.length; i++) html += '<div class="entry diary"><span class="tape pink"></span><div class="ttl">' + DIARY[i].date + '</div><p>' + DIARY[i].body + '</p></div>';
   } else if (t === "dict") {
-    html += '<div class="page"><h3><span class="hl">用語辭典</span></h3>';
+    html += '<h3><span class="big">用語筆記</span><span class="sub">棒球相關的用語</span></h3>';
     for (var k in DICT) {
-      if (state.unlocked[k]) html += '<div class="entry"><b>' + k + '</b><span class="jp">' + DICT[k].jp + '</span><p>' + DICT[k].body + '</p>' + (DICT[k].memo ? '<div class="memo">' + DICT[k].memo + '</div>' : '') + '</div>';
+      if (state.unlocked[k]) html += '<div class="entry"><span class="ttl">' + k + '</span><span class="jp">' + DICT[k].jp + '</span><p>' + DICT[k].body + '</p>' + (DICT[k].memo ? '<div class="memo">' + DICT[k].memo + '</div>' : '') + '</div>';
       else html += '<div class="entry locked">？？？　<span style="font-size:.75em">（尚未記錄）</span></div>';
     }
-    html += '</div>';
-  } else if (t === "keys") {
-    html += '<div class="page"><h3><span class="hl">收集到的關鍵詞</span></h3>';
-    if (!state.keys.length) html += '<p style="color:#aaa">還沒有任何關鍵詞。</p>';
-    for (var q = 0; q < state.keys.length; q++) html += '<span class="slot filled" style="margin-bottom:.5em">' + state.keys[q] + '</span>';
-    html += '</div>';
+  } else if (t === "log") {
+    html += '<h3><span class="big">考察紀錄</span><span class="sub">由關鍵詞推導出的事件</span></h3>';
+    if (!state.log.length) html += '<p style="color:#aaa">還沒有任何紀錄。</p>';
+    for (i = 0; i < state.log.length; i++) {
+      var L = state.log[i], ev = "";
+      for (var e = 0; e < L.keys.length; e++) ev += '<span>' + L.keys[e] + '</span>';
+      html += '<div class="entry"><span class="ttl">' + L.title + '</span><span class="when">' + L.when + '</span><p>' + L.body + '</p><div class="ev">' + ev + '</div></div>';
+    }
   } else {
     var o = [["auto", "自動"], ["portrait", "直屏"], ["landscape", "橫屏"]];
-    html += '<div class="page"><h3><span class="hl">畫面方向</span></h3>';
-    for (var n = 0; n < o.length; n++) html += '<span class="opt' + (state.orient === o[n][0] ? ' on' : '') + '" data-o="' + o[n][0] + '">' + o[n][1] + '</span>';
-    html += '</div>';
+    html += '<h3><span class="big">設定</span></h3><p>畫面方向</p>';
+    for (i = 0; i < o.length; i++) html += '<span class="opt' + (state.orient === o[i][0] ? ' on' : '') + '" data-o="' + o[i][0] + '">' + o[i][1] + '</span>';
   }
-  $("book").innerHTML = html;
+  $("book").innerHTML = html + '</div>';
+  $("book").scrollTop = 0;
   var tabs = document.querySelectorAll(".tab");
-  for (var i = 0; i < tabs.length; i++) tabs[i].className = tabs[i].getAttribute("data-p") === t ? "tab on" : "tab";
+  for (i = 0; i < tabs.length; i++) tabs[i].className = tabs[i].getAttribute("data-p") === t ? "tab on" : "tab";
 }
 
 /* ---------- 版面：直屏／橫屏 ---------- */
@@ -449,17 +473,17 @@ $("dialog").addEventListener("click", function (e) {
     if (empty >= 0) { state.slots[empty] = k; refreshChips(); }
     return;
   }
+  if (el.className === "chip used" || el.className === "nw" || el.className === "punct") return;
   next();
 });
 var slotEls = document.querySelectorAll(".slot");
 for (var s = 0; s < slotEls.length; s++) {
   slotEls[s].addEventListener("click", function () {
-    var i = +this.getAttribute("data-i");
-    if (SCRIPT[state.i].evidence) { state.slots[i] = null; refreshChips(); }
+    if (SCRIPT[state.i].evidence) { state.slots[+this.getAttribute("data-i")] = null; refreshChips(); }
   });
 }
 $("submitBtn").addEventListener("click", submit);
-$("menuBtn").addEventListener("click", function () { renderBook(); $("menu").className = "open"; });
+$("menuBtn").addEventListener("click", function () { openMenu(); });
 $("closeMenu").addEventListener("click", function () { $("menu").className = ""; });
 $("menu").addEventListener("click", function (e) {
   var el = e.target;
