@@ -631,8 +631,10 @@ function layout() {
 }
 
 /* ---------- 事件 ---------- */
-$("dialog").addEventListener("click", function (e) {
+/* 點擊畫面任何地方都能推進對話（上方列、日記本、彈出便條除外） */
+document.body.addEventListener("click", function (e) {
   var el = e.target;
+  if (el.closest && el.closest("#topbar, #menu, #popup")) return;
   if (el.className === "term") { showTerm(el.getAttribute("data-term")); return; }
   if (el.className === "chip") {
     var k = +el.getAttribute("data-k"), empty = state.slots.indexOf(null);
