@@ -4,20 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>考察手帳（試玩原型）</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fonts/yozai/yozai.css">
 <style>
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
   body {
     background: #c3c6dc;
-    font-family: "LXGW WenKai TC", "Hiragino Maru Gothic ProN", "PingFang TC", "Microsoft JhengHei", sans-serif;
+    font-family: "Yozai", "Hiragino Maru Gothic ProN", "PingFang TC", "Microsoft JhengHei", sans-serif;
     color: #2b2b2b;
     -webkit-user-select: none; user-select: none;
   }
   button { font-family: inherit; }
-  /* 台詞與內文：Maple Mono CN Thin（精簡字型，tools/subset_font.py 產生）；標籤與手寫部分：霞鶩文楷 */
+  /* 台詞與內文：Maple Mono CN Thin（tools/subset_font.py）；標籤、標題與原主日記：悠哉 Yozai Medium（tools/yozai_slices.py） */
   @font-face {
     font-family: "Maple Thin";
     src: url("fonts/maple-mono-cn-thin.woff2") format("woff2"), url("fonts/maple-mono-cn-thin.woff") format("woff");
@@ -26,7 +24,7 @@
   #text, .chip, .note p, .page p, .entry p, .slot.filled { font-family: "Maple Thin", "Noto Serif TC", "PingFang TC", sans-serif; letter-spacing: -.17em; }
   .chip { padding-right: .67em; }
   .slot.filled { padding-right: .57em; }
-  .entry.diary p { font-family: "LXGW WenKai TC", "Hiragino Maru Gothic ProN", "PingFang TC", sans-serif; letter-spacing: 0; }
+  .entry.diary p { font-family: "Yozai", "Hiragino Maru Gothic ProN", "PingFang TC", sans-serif; letter-spacing: 0; }
 
   /* ---------- 舞台 ---------- */
   #stage {
@@ -319,6 +317,8 @@
   .sb .empty { color: #bbb; }
   .sbtn { display: inline-block; font-size: .8em; padding: .3em .8em; margin: .3em .3em 0 0; border-radius: .4em; border: 1.5px solid #3a5cb0; color: #3a5cb0; background: #fff; cursor: pointer; }
   .sbtn.main { background: #3a5cb0; color: #fff; }
+  /* 悠哉只有一種粗細，避免瀏覽器硬加粗 */
+  #evidence .label, #name, .tab.on, .page h3 .big, .entry .ttl, .note h4, .note b, .polaroid .cap { font-weight: 500; }
   .note { background: #fde9cc; }
   .note button { background: #3a5cb0; }
   .note button.sub { color: #3a5cb0; border-color: #3a5cb0; background: #fff; }
