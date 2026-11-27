@@ -374,6 +374,23 @@
   #stage.landscape .vt .zh { font-size: .68em; letter-spacing: 0; }
   #stage.landscape .vt .src { font-size: .5em; }
   #stage.landscape .tapnext { bottom: .6em; left: auto; right: 1.2em; }
+
+  /* ---------- 扉頁：明朝體、右上角的緊湊區塊 ---------- */
+  @font-face { font-family: "ZenOldWaka"; src: url("fonts/zen-old-mincho-waka.woff2") format("woff2"); }
+  @font-face { font-family: "GenYoWaka"; src: url("fonts/genyomin-waka.woff2") format("woff2"); }
+  .waka { display: block; }
+  .vt { position: absolute; right: 2.4em; top: 3.2em; height: auto; font-size: .72em; line-height: 1.85; color: #85858f; }
+  .vt p, .vt .jp, .vt .zh, .vt .src { margin: 0; font-size: 1em; color: #85858f; letter-spacing: .1em; }
+  .vt .jp { font-family: "ZenOldWaka", "GenYoWaka", serif; }
+  .vt .zh, .vt .src { font-family: "GenYoWaka", "ZenOldWaka", serif; }
+  .vt .gap { margin-left: 0; margin-right: 1.3em; }
+  .vt .src { -webkit-align-self: auto; align-self: auto; }
+  .leaf .drop1 { right: .9em; top: 1.1em; }
+  #stage.landscape .vt { font-size: .58em; top: 2.6em; right: 2.2em; height: auto; }
+  #stage.landscape .vt .jp, #stage.landscape .vt .zh, #stage.landscape .vt .src { font-size: 1em; letter-spacing: .05em; }
+
+  /* ---------- 雨滴：上尖下圓 ---------- */
+  .drop { border-radius: 0; opacity: .75; background: transparent url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 30'><path d='M10 0 C10 0 19 13 19 20 A9 9 0 0 1 1 20 C1 13 10 0 10 0Z' fill='%233a5cb0'/></svg>") no-repeat center / contain; }
   .note { background: #fde9cc; }
   .note button { background: #3a5cb0; }
   .note button.sub { color: #3a5cb0; border-color: #3a5cb0; background: #fff; }
@@ -442,7 +459,7 @@
           <p class="jp">七日し降らば　七日来じとや</p>
           <p class="zh gap">一點春雨　難道就會把衣服淋得濕透嗎</p>
           <p class="zh">若是這雨連下七天　難道您就七天不來了？</p>
-          <p class="src gap">——《万葉集》巻第十・春相聞・寄雨・一九一七番（佚名）</p>
+          <p class="src gap">——『万葉集』巻第十・春相聞・寄雨・一九一七番（佚名）</p>
         </div>
       </div>
       <div class="tapnext">輕觸翻頁</div>
