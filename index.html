@@ -428,6 +428,7 @@ var state = { i: 0, slots: [null, null, null], unlocked: {}, log: [], orient: "a
 var $ = function (id) { return document.getElementById(id); };
 
 function renderLine() {
+  autoSave();
   var line = SCRIPT[state.i];
   if (line.place) state.place = line.place;
   var nameEl = $("name"), textEl = $("text");
@@ -586,11 +587,28 @@ function renderBook() {
     var o = [["auto", "自動"], ["portrait", "直屏"], ["landscape", "橫屏"]];
     html += '<h3><span class="big">設定</span></h3><p>畫面方向</p>';
     for (i = 0; i < o.length; i++) html += '<span class="opt' + (state.orient === o[i][0] ? ' on' : '') + '" data-o="' + o[i][0] + '">' + o[i][1] + '</span>';
+    html += '<p style="margin-top:1.2em">進度</p><p style="color:#888;font-size:.75em">遊戲會自動記錄進度，關掉網頁後再打開，會從上次的地方繼續。</p><span class="opt" data-reset="1">從頭開始</span>';
   }
   $("book").innerHTML = html + '</div>';
   $("book").scrollTop = 0;
   var tabs = document.querySelectorAll(".tab");
   for (i = 0; i < tabs.length; i++) tabs[i].className = tabs[i].getAttribute("data-p") === t ? "tab on" : "tab";
+}
+
+/* ---------- 自動存檔 ---------- */
+var AUTO_KEY = "blg-autosave";
+function autoSave() {
+  var d = { i: state.i, place: state.place || "", unlocked: state.unlocked, log: state.log, orient: state.orient };
+  try { window.localStorage.setItem(AUTO_KEY, JSON.stringify(d)); } catch (e) {}
+}
+function autoLoad() {
+  try {
+    var v = window.localStorage.getItem(AUTO_KEY); if (!v) return;
+    var d = JSON.parse(v);
+    if (typeof d.i === "number" && d.i < SCRIPT.length) state.i = d.i;
+    state.place = d.place || ""; state.unlocked = d.unlocked || {}; state.log = d.log || []; state.orient = d.orient || "auto";
+    /* 停在考察或結束畫面以外的地方時，退回該段落的開頭比較自然：這裡先直接回到同一行 */
+  } catch (e) {}
 }
 
 /* ---------- 存檔（記分簿） ---------- */
@@ -657,13 +675,15 @@ $("menu").addEventListener("click", function (e) {
   var el = e.target;
   if (el === this) { this.className = ""; return; }
   if (el.getAttribute("data-p")) { state.tab = el.getAttribute("data-p"); renderBook(); }
-  if (el.getAttribute("data-o")) { state.orient = el.getAttribute("data-o"); layout(); renderBook(); }
+  if (el.getAttribute("data-o")) { state.orient = el.getAttribute("data-o"); layout(); renderBook(); autoSave(); }
+  if (el.getAttribute("data-reset")) { state.unlocked = {}; state.log = []; restart(); }
   if (el.getAttribute("data-save")) { saveSlot(+el.getAttribute("data-save")); renderBook(); }
   if (el.getAttribute("data-load")) { loadGame(+el.getAttribute("data-load")); }
 });
 $("popup").addEventListener("click", function (e) { if (e.target === this) closePopup(); });
 window.addEventListener("resize", layout);
 
+autoLoad();
 layout();
 renderLine();
 </script>
