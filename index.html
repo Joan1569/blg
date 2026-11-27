@@ -319,6 +319,61 @@
   .sbtn.main { background: #3a5cb0; color: #fff; }
   /* 悠哉只有一種粗細，避免瀏覽器硬加粗 */
   #evidence .label, #name, .tab.on, .page h3 .big, .entry .ttl, .note h4, .note b, .polaroid .cap { font-weight: 500; }
+
+  /* ---------- 標籤：未選中也有各自的顏色 ---------- */
+  .tab, #stage.portrait .tab { color: #7a7268; }
+  .tab:nth-child(1), #stage.portrait .tab:nth-child(1) { background: #fde6ed; }
+  .tab:nth-child(2), #stage.portrait .tab:nth-child(2) { background: #fdf0dc; }
+  .tab:nth-child(3), #stage.portrait .tab:nth-child(3) { background: #ebf0fa; }
+  .tab:nth-child(4), #stage.portrait .tab:nth-child(4) { background: #efedf8; }
+  .tab:nth-child(5), #stage.portrait .tab:nth-child(5) { background: #fbe4d9; }
+  .tab:nth-child(6), #stage.portrait .tab:nth-child(6) { background: #f1eee8; }
+  .tab:nth-child(1).on { background: #f8bfd0; color: #9c2f5a; }
+  .tab:nth-child(2).on { background: #f9d9a8; color: #8a5a12; }
+  .tab:nth-child(3).on { background: #c9d6f2; color: #2f4f9e; }
+  .tab:nth-child(4).on { background: #d8d2f0; color: #4b437a; }
+  .tab:nth-child(5).on { background: #f6c7b3; color: #8f4628; }
+  .tab:nth-child(6).on { background: #ffffff; color: #555; }
+  #stage.portrait .tab.on { -webkit-transform: translateX(.3em); transform: translateX(.3em); }
+  #stage.landscape .tab.on { -webkit-transform: translateY(-.2em); transform: translateY(-.2em); }
+
+  /* ---------- 日記本翻頁 ---------- */
+  .book { -webkit-perspective: 60em; perspective: 60em; }
+  .page { -webkit-transform-origin: 0 50%; transform-origin: 0 50%; }
+  .page.turn { -webkit-animation: pageturn .45s ease-out; animation: pageturn .45s ease-out; }
+  @-webkit-keyframes pageturn { 0% { -webkit-transform: rotateY(70deg); opacity: .2; } 100% { -webkit-transform: rotateY(0); opacity: 1; } }
+  @keyframes pageturn { 0% { transform: rotateY(70deg); opacity: .2; } 100% { transform: rotateY(0); opacity: 1; } }
+
+  /* ---------- 扉頁（開場） ---------- */
+  #prologue { position: absolute; left: 0; top: 0; right: 0; bottom: 0; z-index: 20; display: none;
+    background: #c9d3ee; -webkit-perspective: 80em; perspective: 80em; }
+  #prologue.show { display: block; }
+  .leaf { position: absolute; left: 1.4em; right: 1.4em; top: 1.4em; bottom: 1.4em;
+    background-color: #fffdf8; border-left: .5em solid #3a5cb0; border-radius: .3em .8em .8em .3em;
+    background-image: linear-gradient(rgba(58,92,176,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(58,92,176,.08) 1px, transparent 1px);
+    background-size: 1em 1em;
+    box-shadow: .2em .1em 0 #f6f2eb, .26em .14em 0 #d8d1c4, .46em .24em 0 #f2ede4, .52em .28em 0 #d8d1c4, .9em .8em 1em rgba(0,0,0,.18);
+    -webkit-transform-origin: 0 50%; transform-origin: 0 50%; }
+  .leaf.away { -webkit-transition: -webkit-transform .7s ease-in, opacity .7s ease-in; transition: transform .7s ease-in, opacity .7s ease-in;
+    -webkit-transform: rotateY(-100deg); transform: rotateY(-100deg); opacity: 0; }
+  .waka { position: absolute; left: 0; right: 0; top: 0; bottom: 0; display: -webkit-box; display: -webkit-flex; display: flex;
+    -webkit-box-align: center; -webkit-align-items: center; align-items: center; -webkit-box-pack: center; -webkit-justify-content: center; justify-content: center; }
+  .vt { -webkit-writing-mode: vertical-rl; writing-mode: vertical-rl; height: 82%; }
+  .vt p { margin: 0 0 0 .6em; }
+  .vt .jp { font-size: 1.25em; letter-spacing: .18em; color: #2a2a3a; }
+  .vt .zh { font-family: "Maple Thin", "PingFang TC", sans-serif; font-size: .95em; letter-spacing: .08em; color: #3a4a78; }
+  .vt .gap { margin-left: 2.2em; }
+  .vt .src { font-size: .7em; color: #888; letter-spacing: .05em; -webkit-align-self: flex-end; align-self: flex-end; }
+  .vt .src { margin-top: auto; }
+  .leaf .drop1 { position: absolute; right: 2.2em; top: 2.4em; }
+  .tapnext { position: absolute; left: 0; right: 0; bottom: 2.6em; text-align: center; font-size: .75em; color: #e2568a;
+    -webkit-animation: bob 1.2s infinite; animation: bob 1.2s infinite; }
+  #stage.landscape .leaf { left: 18%; right: 18%; top: .8em; bottom: .8em; }
+  #stage.landscape .vt { height: 90%; }
+  #stage.landscape .vt .jp { font-size: .92em; letter-spacing: .04em; }
+  #stage.landscape .vt .zh { font-size: .68em; letter-spacing: 0; }
+  #stage.landscape .vt .src { font-size: .5em; }
+  #stage.landscape .tapnext { bottom: .6em; left: auto; right: 1.2em; }
   .note { background: #fde9cc; }
   .note button { background: #3a5cb0; }
   .note button.sub { color: #3a5cb0; border-color: #3a5cb0; background: #fff; }
@@ -378,6 +433,22 @@
   </div>
 
   <div id="popup"><div class="note" id="note"></div></div>
+  <div id="prologue">
+    <div class="leaf" id="leaf">
+      <span class="drop drop1"></span>
+      <div class="waka">
+        <div class="vt">
+          <p class="jp">春雨に　衣はいたく　通らめや</p>
+          <p class="jp">七日し降らば　七日来じとや</p>
+          <p class="zh gap">一點春雨　難道就會把衣服淋得濕透嗎</p>
+          <p class="zh">若是這雨連下七天　難道您就七天不來了？</p>
+          <p class="src gap">——《万葉集》巻第十・春相聞・寄雨・一九一七番（佚名）</p>
+        </div>
+      </div>
+      <div class="tapnext">輕觸翻頁</div>
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -513,7 +584,7 @@ function submit() {
 }
 
 function retry() { state.slots = [null, null, null]; closePopup(); refreshChips(); }
-function restart() { state.slots = [null, null, null]; state.i = 0; state.place = ""; closePopup(); $("menu").className = ""; renderLine(); }
+function restart() { state.slots = [null, null, null]; state.i = 0; state.place = ""; state.prologueSeen = false; closePopup(); $("menu").className = ""; renderLine(); showPrologue(); }
 
 function showNote(title, body, btns) {
   $("note").innerHTML = '<span class="tape lav"></span><h4>' + title + '</h4>' + body + '<div class="btns">' + btns + '</div>';
@@ -595,10 +666,24 @@ function renderBook() {
   for (i = 0; i < tabs.length; i++) tabs[i].className = tabs[i].getAttribute("data-p") === t ? "tab on" : "tab";
 }
 
+
+/* ---------- 扉頁 ---------- */
+function showPrologue() {
+  var leaf = $("leaf"); leaf.className = "leaf";
+  $("prologue").className = "show";
+}
+$("prologue").addEventListener("click", function (e) {
+  e.stopPropagation();
+  var leaf = $("leaf");
+  if (leaf.className.indexOf("away") >= 0) return;
+  leaf.className = "leaf away";
+  setTimeout(function () { $("prologue").className = ""; state.prologueSeen = true; autoSave(); }, 700);
+});
+
 /* ---------- 自動存檔 ---------- */
 var AUTO_KEY = "blg-autosave";
 function autoSave() {
-  var d = { i: state.i, place: state.place || "", unlocked: state.unlocked, log: state.log, orient: state.orient };
+  var d = { i: state.i, place: state.place || "", unlocked: state.unlocked, log: state.log, orient: state.orient, prologueSeen: !!state.prologueSeen };
   try { window.localStorage.setItem(AUTO_KEY, JSON.stringify(d)); } catch (e) {}
 }
 function autoLoad() {
@@ -606,7 +691,7 @@ function autoLoad() {
     var v = window.localStorage.getItem(AUTO_KEY); if (!v) return;
     var d = JSON.parse(v);
     if (typeof d.i === "number" && d.i < SCRIPT.length) state.i = d.i;
-    state.place = d.place || ""; state.unlocked = d.unlocked || {}; state.log = d.log || []; state.orient = d.orient || "auto";
+    state.place = d.place || ""; state.unlocked = d.unlocked || {}; state.log = d.log || []; state.orient = d.orient || "auto"; state.prologueSeen = !!d.prologueSeen;
     /* 停在考察或結束畫面以外的地方時，退回該段落的開頭比較自然：這裡先直接回到同一行 */
   } catch (e) {}
 }
@@ -652,7 +737,7 @@ function layout() {
 /* 點擊畫面任何地方都能推進對話（上方列、日記本、彈出便條除外） */
 document.body.addEventListener("click", function (e) {
   var el = e.target;
-  if (el.closest && el.closest("#topbar, #menu, #popup")) return;
+  if (el.closest && el.closest("#topbar, #menu, #popup, #prologue")) return;
   if (el.className === "term") { showTerm(el.getAttribute("data-term")); return; }
   if (el.className === "chip") {
     var k = +el.getAttribute("data-k"), empty = state.slots.indexOf(null);
@@ -674,7 +759,7 @@ $("closeMenu").addEventListener("click", function () { $("menu").className = "";
 $("menu").addEventListener("click", function (e) {
   var el = e.target;
   if (el === this) { this.className = ""; return; }
-  if (el.getAttribute("data-p")) { state.tab = el.getAttribute("data-p"); renderBook(); }
+  if (el.getAttribute("data-p") && el.getAttribute("data-p") !== state.tab) { state.tab = el.getAttribute("data-p"); renderBook(); var pg = document.querySelector("#book .page"); if (pg) pg.className = "page turn"; }
   if (el.getAttribute("data-o")) { state.orient = el.getAttribute("data-o"); layout(); renderBook(); autoSave(); }
   if (el.getAttribute("data-reset")) { state.unlocked = {}; state.log = []; restart(); }
   if (el.getAttribute("data-save")) { saveSlot(+el.getAttribute("data-save")); renderBook(); }
@@ -686,6 +771,7 @@ window.addEventListener("resize", layout);
 autoLoad();
 layout();
 renderLine();
+if (!state.prologueSeen) showPrologue();
 </script>
 </body>
 </html>
