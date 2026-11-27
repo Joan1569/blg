@@ -400,6 +400,22 @@
   #prologue.fade { -webkit-transition: opacity .35s; transition: opacity .35s; opacity: 0; }
   .leaf.away { -webkit-transition: -webkit-transform .6s ease-in, opacity .6s ease-in, box-shadow .6s; transition: transform .6s ease-in, opacity .6s ease-in, box-shadow .6s;
     -webkit-transform: rotateY(-95deg); transform: rotateY(-95deg); opacity: .15; box-shadow: 1.5em .5em 1.5em rgba(0,0,0,.25); }
+
+  /* ---------- 日記頁（扉頁之後） ---------- */
+  .dpage { position: absolute; left: 1.4em; right: 1.2em; top: 1.6em; bottom: 1.2em; overflow: hidden;
+    font-family: "Yozai", "PingFang TC", sans-serif; font-size: .8em; color: #44506e; letter-spacing: .02em; }
+  .dpage.end { display: -webkit-box; display: -webkit-flex; display: flex; -webkit-box-align: center; -webkit-align-items: center; align-items: center;
+    -webkit-box-pack: center; -webkit-justify-content: center; justify-content: center; color: #9a98a6; }
+  .dent { margin-bottom: 1.6em; }
+  .dent .dd { display: inline-block; font-size: 1.05em; margin-bottom: .4em; padding: 0 .3em; background: linear-gradient(transparent 60%, rgba(243,169,191,.8) 60%); }
+  .dent p { margin: 0; line-height: 1.9; }
+  .dent .sp { height: .6em; }
+  .dent s { color: #a29cab; text-decoration: line-through; -webkit-text-decoration-color: #e2568a; text-decoration-color: #e2568a; }
+  .dent pre.aa { margin: .3em 0 0; font-family: "Menlo", "Courier New", monospace; font-size: .9em; line-height: 1.15; color: #44506e; }
+  .entry.diary .dent { margin-bottom: 0; }
+  .entry.diary .dent .dd { font-weight: 500; }
+  .entry.diary .dent p { font-family: "Yozai", "PingFang TC", sans-serif; font-size: .85em; letter-spacing: 0; }
+  #stage.landscape .dpage { font-size: .66em; }
   .note { background: #fde9cc; }
   .note button { background: #3a5cb0; }
   .note button.sub { color: #3a5cb0; border-color: #3a5cb0; background: #fff; }
@@ -460,7 +476,7 @@
 
   <div id="popup"><div class="note" id="note"></div></div>
   <div id="prologue">
-    <div class="leaf stack"></div>
+    <div class="leaf stack" id="stackleaf"></div>
     <div class="leaf" id="leaf">
       <span class="drop drop1"></span>
       <div class="waka">
@@ -514,11 +530,151 @@ var DICT = {
 };
 
 /* 原主日記：穿越前就寫好的內容 */
+/* 原主日記：一年級四月～二年級四月（Joan 撰寫）。~~ ~~ 之間是劃掉的字，以 \u200e 開頭的行是符號畫 */
 var DIARY = [
-  { date: "3/28", body: "春假最後一週。明天開始要整理新學期的筆記本。" },
-  { date: "4/1", body: "新學期。同班的 B 同學和棒球部的 A 前輩好像是舊識，午休的時候 A 前輩特地跑來教室找他。" },
-  { date: "4/2", body: "<span class='strike'>A×B……？</span>不行，這種事不能寫在這裡。" }
+{
+"date": "4月7日（入學式）",
+"lines": [
+"今天開始就要正式成為高中生了，感覺有點緊張、、聽說福岡文理大附是特別厲害的升學校 其實直到現在都沒有自己真的通過了的實感⋯⋯",
+"為了慶祝升學，我去買了新的日記本！今天開始就用這本寫日記了！",
+"還有 學校的女子制服也是學蘭，超帥的 有種漫畫一樣的感覺ww",
+"希望學校裏千萬別都是冷淡的學霸⋯⋯能順利交到好朋友就好了"
+]
+},
+{
+"date": "4月10日",
+"lines": [
+"坐在旁邊的男生仔細看還挺帥的樣子 站起來真的超級無敵高，據說國中的時候還是青少棒隊的王牌投手，完全勝利組⋯⋯",
+"不過感覺他好像有點笨 上課一直在睡覺",
+"今天好想吃薯條啊"
+]
+},
+{
+"date": "4月15日",
+"lines": [
+"提交了管弦樂部的入部申請，還是繼續學法國號QQ被前輩問到才發現自己都快學到六年了",
+"旁邊的那個男生叫新谷，現在發現他是真的很笨了⋯⋯成績超差的 不過打棒球好像很厲害，據說國中就打進巨人杯了。那種人高中畢業之後應該就會去打職棒吧，感覺還是我的人生比較需要擔心orz"
+]
+},
+{
+"date": "4月23日",
+"lines": [
+"午休去圖書室還書的時候 發現隔壁班的女生（叫千夏）居然要借《異邦騎士》！！而且主動和我搭話了ww好開心",
+"不過跟她聊過之後才發現她其實是推理迷（⋯⋯）但是不好意思告訴她我其實是為了御手洗和石岡才看的 就糊弄過去了",
+"千夏感覺真的是重度推理迷，感覺什麼詭計都記得清清楚楚 不過她好像有點中二病⋯⋯說想當偵探什麼的"
+]
+},
+{
+"date": "5月9日",
+"lines": [
+"班上的女生在討論最近超紅的偶像團體，還問我推誰 其實我根本就不是單推啊！！要拆開我CP單獨說其中一個的名字的話總感覺很偏心",
+"但不敢真的告訴她們我在萌nmmn所以就說了其他成員的名字（）",
+"",
+"以及 因為ff的安利，最近開始看棒球了 雖然之前爸爸媽媽也會帶我一起去看，但感覺一點意思也沒有，所以只是一直在吃小吃而已",
+"感覺棒球其實還滿有意思的"
+]
+},
+{
+"date": "6月20日",
+"lines": [
+"棒球部的三﨑前輩在走廊上發夏甲的傳單，整條走廊上全都是人⋯⋯前輩能力超級強，臉又好看，真的棒球部全部都是完美超人嗎",
+"~~好奇我們學校的棒球部有沒有素材~~",
+"這麼說是不是不太好wwww被腐入侵大腦"
+]
+},
+{
+"date": "7月18日",
+"lines": [
+"期末考的成績單發下來了，居然有進前一百d(￣ ￣)好開心",
+"爸爸媽媽看到的時候也還蠻高興的！暑假有好多想幹的事 感覺可能會比較好說話了ww"
+]
+},
+{
+"date": "8月10日",
+"lines": [
+"今天跟學校的應援巴士去甲子園 一天下來累到不行⋯⋯明天再寫了"
+]
+},
+{
+"date": "8月11日",
+"lines": [
+"超級熱！超級熱！！今天不會離開酒店了 感覺應援團所有人加起來至少喝了十箱水",
+"昨天先發的居然是新谷同學，而且他還完投了，嚇我一跳 原來他打棒球有這麼厲害啊",
+"在投手丘上看起來居然很帥 明明平時根本野球八嘎⋯⋯",
+"採訪的時候記者問那個新谷同學有沒有話想對捕手說，他居然說什麼「希望前輩好好休息」，~~呵護女房的旦那様⋯⋯~~",
+"感覺這麼講同學 有點不太好、、orz"
+]
+},
+{
+"date": "8月19日",
+"lines": [
+"準決賽輸了 雖然自己不是棒球部但還是覺得好難受TT比賽結束後還下雨了",
+"明天要回家了"
+]
+},
+{
+"date": "10月26日（文化祭）",
+"lines": [
+"今天是文化祭！管弦樂部的演出結束之後千夏來找我了 說什麼法國號的聲音好像有人躲在牆後面吹，還說可以當作推理小說的詭計用ww"
+]
+},
+{
+"date": "12月3日",
+"lines": [
+"放學的電車上，看到國中同班的女生",
+"~~雖然之前覺得她是最好的朋友~~",
+"、、還是不想在這裡寫 就算了吧 希望自己以後翻開日記的時候只會想起開心的事",
+"畫個小兔子",
+"‎   (\\  /)",
+"‎ ◖  ェ  ◗",
+"‎ /          \\",
+"‎( ⌟لし⌞)"
+]
+},
+{
+"date": "3月19日",
+"lines": [
+"二年級的分班表貼出來了 剛好和千夏也在 B 班！太好了ww",
+"真的很開心 今天放學之後和千夏一起去吃W當勞了"
+]
+},
+{
+"date": "3月28日",
+"lines": [
+"春假最後一週 作業⋯⋯救命啊啊啊 今天就不寫日記了TT"
+]
+},
+{
+"date": "4月1日（新學期）",
+"lines": [
+"座位排好了，左邊是千夏，右邊還是棒球部的新谷同學 巧合嗎ww",
+"話說新谷同學一整天都心不在焉的樣子，還有空就拿出手機看消息。放學鐘一響他就衝出教室了⋯⋯有這麼喜歡棒球嗎 還是說( ｰ̀ωｰ́ )"
+]
+},
+{
+"date": "4月2日",
+"lines": [
+"午休的時候，新谷同學跑去三年級的教室，還在走廊上大喊大叫的⋯⋯",
+"聽說是去找棒球部的捕手，朝田前輩。就是去年採訪的時候給新谷接捕的捕手。",
+"朝田前輩有點鹽系男子的感覺啊 那個什麼 好像還挺萌的⋯⋯"
+]
+}
 ];
+var PRO_PAGES = ["title", [0, 1], [2, 3], [4], [5, 6], [7, 8], [9, 10], [11], [12, 13], [14, 15], "end"];
+function esc(t) { return t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+function diaryEntryHTML(e) {
+  var out = '<div class="dent"><div class="dd">' + e.date + '</div>', art = [];
+  for (var k = 0; k < e.lines.length; k++) {
+    var l = e.lines[k];
+    if (l.charAt(0) === "\u200e") { art.push(esc(l.slice(1))); continue; }
+    if (art.length) { out += '<pre class="aa">' + art.join("\n") + '</pre>'; art = []; }
+    if (!l.trim()) { out += '<div class="sp"></div>'; continue; }
+    out += '<p>' + esc(l).replace(/~~(.+?)~~/g, '<s>$1</s>') + '</p>';
+  }
+  if (art.length) out += '<pre class="aa">' + art.join("\n") + '</pre>';
+  return out + '</div>';
+}
+
 
 /* ========================================================= */
 var state = { i: 0, slots: [null, null, null], unlocked: {}, log: [], orient: "auto", money: 5000, grade: "C", tab: "sched", onClose: null };
@@ -652,8 +808,8 @@ function renderBook() {
     }
     html += '</table><p style="color:#aaa;font-size:.75em">社團活動每週固定，休部日（週三、週日）可以自由安排打工、圍觀練習或回家。（示意畫面）</p>';
   } else if (t === "diary") {
-    html += '<h3><span class="big">原主日記</span><span class="sub">穿越前寫下的內容</span></h3>';
-    for (i = 0; i < DIARY.length; i++) html += '<div class="entry diary"><span class="tape pink"></span><div class="ttl">' + DIARY[i].date + '</div><p>' + DIARY[i].body + '</p></div>';
+    html += '<h3><span class="big">原主日記</span><span class="sub">一年級四月開始的日記</span></h3>';
+    for (i = 0; i < DIARY.length; i++) html += '<div class="entry diary"><span class="tape pink"></span>' + diaryEntryHTML(DIARY[i]) + '</div>';
   } else if (t === "dict") {
     html += '<h3><span class="big">用語筆記</span><span class="sub">棒球相關的用語</span></h3>';
     for (var k in DICT) {
@@ -695,15 +851,38 @@ function renderBook() {
 
 /* ---------- 扉頁 ---------- */
 function showPrologue() {
-  var leaf = $("leaf"); leaf.className = "leaf";
+  var leaf = $("leaf"); leaf.className = "leaf"; proIndex = 0; leaf.innerHTML = TITLE_HTML;
   $("prologue").className = "show";
 }
+var TITLE_HTML = $("leaf").innerHTML, proIndex = 0, proBusy = false;
+function proPageHTML(k) {
+  var pg = PRO_PAGES[k];
+  if (pg === "title") return TITLE_HTML;
+  if (pg === "end") return '<div class="dpage end"><span class="drop drop1"></span><p>（以下空白）</p></div>';
+  var h = '<div class="dpage"><span class="drop drop1"></span>';
+  for (var j = 0; j < pg.length; j++) h += diaryEntryHTML(DIARY[pg[j]]);
+  return h + '</div>';
+}
 function turnPrologue() {
+  if (proBusy) return;
   var leaf = $("leaf");
-  if (leaf.className.indexOf("away") >= 0) return;
+  if (proIndex >= PRO_PAGES.length - 1) {
+    proBusy = true;
+    leaf.className = "leaf away";
+    setTimeout(function () { $("prologue").className = "show fade"; }, 450);
+    setTimeout(function () { $("prologue").className = ""; state.prologueSeen = true; proBusy = false; autoSave(); }, 820);
+    return;
+  }
+  proBusy = true;
+  $("stackleaf").innerHTML = proPageHTML(proIndex + 1);
   leaf.className = "leaf away";
-  setTimeout(function () { $("prologue").className = "show fade"; }, 450);
-  setTimeout(function () { $("prologue").className = ""; state.prologueSeen = true; autoSave(); }, 820);
+  setTimeout(function () {
+    proIndex++;
+    leaf.innerHTML = proPageHTML(proIndex);
+    leaf.className = "leaf";
+    $("stackleaf").innerHTML = "";
+    proBusy = false;
+  }, 620);
 }
 $("prologue").addEventListener("click", function (e) { e.stopPropagation(); turnPrologue(); });
 /* ---------- 左右划動 ---------- */
